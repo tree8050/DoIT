@@ -11,9 +11,13 @@ public interface BoardService {
     int getCount() throws Exception;
     List<BoardDto> getPage(Pagination pagination) throws Exception;
     BoardDto read(Integer board_Id) throws Exception;
+    BoardDto before(Integer board_Id) throws Exception;
     int modify(BoardDto boardDto) throws Exception;
-    int write(BoardDto boardDto) throws Exception;
-    int remove(Integer board_Id, String board_Writer) throws Exception;
+    void write(BoardDto boardDto) throws Exception;
+    int remove(BoardDto boardDto) throws Exception;
+    int searchResultCount(BoardDto boardDto) throws Exception;
+    List<BoardDto> searchSelectPage(BoardDto boardDto) throws Exception;
+    public int updateCommentCount(Integer board_Id, int count);
 }
 
 

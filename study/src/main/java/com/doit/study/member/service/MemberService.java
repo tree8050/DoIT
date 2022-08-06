@@ -17,4 +17,6 @@ public interface MemberService {
     //이메일 중복 확인
     int findEmail(String email);
 
+
+
 }

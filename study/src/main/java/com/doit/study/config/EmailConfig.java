@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.io.IOException;
 import java.util.Properties;
+
 @Configuration
 @Slf4j
 @PropertySource("classpath:email.properties")
@@ -50,6 +51,11 @@ public class EmailConfig {
     @Value("${spring.mail.default.encoding}")
     private String encoding;
 
+    @Value("${spring.mail.properties.mail.smtp.ssl.enable}")
+    private String ssl;
+
+//    @Value("${spring.mail.properties.mail.smtp.ssl.trust}")
+//    private String trust;
 
     @Bean
     public JavaMailSender javaMailSender(){
@@ -58,7 +64,9 @@ public class EmailConfig {
         properties.put("mail.transport.protocol", protocol);
         properties.put("mail.smtp.auth", auth);
         properties.put("mail.smtp.starttls.enable", starttls);
+        properties.put("mail.properties.mail.smtp.ssl.enable", ssl);
         properties.put("mail.smtp.debug", debug);
+//        properties.put("mail.properties.mail.smtp.ssl.trust", trust);
         log.info("Properties = "+properties);
 
         mailSender.setHost(host);

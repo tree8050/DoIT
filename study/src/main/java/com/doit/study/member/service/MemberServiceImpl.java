@@ -6,7 +6,6 @@ import com.doit.study.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Slf4j
@@ -20,7 +19,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberDto join(MemberDto memberDto) {
         String user_id = UUID.randomUUID().toString();
         Member member = memberDto.toEntity(user_id, memberDto);
-        
+
         //member 객체 저장값 출력
         log.info("user_id={}, name={}, email={}, password={}, sex={}," +
                         "interest1={}, interest2={}, interest3={}, nickname={}",
@@ -37,6 +36,8 @@ public class MemberServiceImpl implements MemberService{
         return null;
     }
 
+
+
     @Override
     public MemberDto login(LoginDto loginDto) {
         String email = loginDto.getEmail();
@@ -47,6 +48,10 @@ public class MemberServiceImpl implements MemberService{
 
         Optional<Member> findMember = memberMapper.findByEmail(email);
         log.info("findMember는 findMember={}", findMember);
+        if(!findMember.isPresent()) {
+            return null;
+        }
+
         Member member = findMember.get();
         log.info("member={}", member);
         log.info("password={}", member.getPassword());
@@ -67,6 +72,4 @@ public class MemberServiceImpl implements MemberService{
     public int findEmail(String email) {
         return memberMapper.checkEmail(email);
     }
-
-
 }

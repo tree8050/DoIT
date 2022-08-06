@@ -1,16 +1,16 @@
 package com.doit.study.member.domain;
 
 import lombok.*;
-
 import javax.validation.constraints.NotEmpty;
 
 @Getter
 @NoArgsConstructor
 public class Member {
 
-    @NotEmpty
-    private String user_id, name, email, password, sex,
+//    @NotEmpty
+    private String user_id, name, email, sex, password,
                 interest1, interest2, interest3 ,nickname;
+
 
     @Builder
     public Member(String user_id, String name, String email, String password, String sex,

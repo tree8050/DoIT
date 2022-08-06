@@ -14,6 +14,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class MemberDto {
 
+    public Object getUser_id;
     private String user_id;
 
     @NotEmpty
@@ -27,10 +28,30 @@ public class MemberDto {
     @NotEmpty
     private String nickname;
 
-    @NotEmpty(message = "필수 입력 값입니다.")
+//    @NotEmpty(message = "필수 입력 값입니다.")
     private String name, sex;
 
+//    @NotEmpty(message = "필수 입력 값입니다.")
     private String interest1, interest2, interest3;
+
+    public MemberDto(  String email,
+                       String nickname,
+                       String name,
+                       String sex,
+                       String interest1,
+                       String interest2,
+                       String interest3
+    ) {
+        this.email = email;
+        this.nickname = nickname;
+        this.name = name;
+        this.sex = sex;
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        this.interest3 = interest3;
+        this.password = null;
+    }
+
 
     public MemberDto toDto(Member member) {
         MemberDto memberDto = new MemberDto();
