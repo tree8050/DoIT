@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+
+<body  class="d-flex flex-column h-100">
+<div layout:fragment="content">
+<!-------------------------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------------------------->
+    <br>
+    <br>
+    <br>
+    <div class="wishlist-wrap" style="margin : 0px 20px">
+        <div class="container2 mt-3">
+        <div class="row gx-4 gx-lg-5">
+            <th:block th:each="list : ${list}">
+            <div class="col-md-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <div class="row">
+                        <div class="col-4 mt-2 ms-4">
+                            <div class="badge bg-gradient rounded-pill mb-2" style="background-color : green">[[${list.writer_interest1}]]</div>
+                        </div>
+                        <div class="col-6 text-end mt-2">
+                            <div class="badge bg-gradient rounded-pill mb-2 bg-primary">모집 중</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title" style="cursor: pointer;" onclick="location.href='./groups/one.html';">[[${list.board_title}]]
+                        </h2>
+                        <p class="card-text">[[${list.board_subTitle}]]</p>
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="d-inline">
+                                    <span class="badge bg-gradient rounded-pill mb-2 text-dark" style="background-color : #b3e5fc">#[[${list.writer_interest2}]]</span>
+                                    <span class="badge bg-gradient rounded-pill mb-2 text-dark" style="background-color : #b3e5fc">#[[${list.writer_interest3}]]</span>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="d-inline">
+                                    <span class="badge badge-info mr-1" style="background-color: blueviolet;">
+                                        <i class="bi bi-geo-alt"></i>
+                                        [[${list.board_location}]]
+                                    </span>
+                                    <i class="bi-heart"
+                                        style="font-size: 1rem; color: red; cursor: pointer; float: right;"></i>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="align-items-end justify-content-between m-lg-2">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle me-3" width="40" height="40" src="/img/파밀리아 성당.jpg" alt="...">
+                            <div class="small">
+                                <div class="fw-bold">[[${list.writer_nickName}]]</div>
+                                <div class="text-muted">[[${list.board_regDate}]]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </th:block>
+        </div>
+        </div>
+    </div>
+        <!-------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------->
+    <div class="display-flex-row mt-3">
+        <div class="m-auto">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                    <li class="paginate_button page-item disabled">
+                        <a class="page-link" href="#none" aria-label="Previous"
+                           th:href="@{/board/indexStudyList(id = ${id}, currentPage = ${pagination.currentPage}-1)}">
+                            <span aria-hidden="true"><</span>
+                        </a>
+                    </li>
+                    <li class="paginate_button page-item active" th:each="idx : ${#numbers.sequence(pagination.firstPage,pagination.lastPage)}">
+                        <a class="page-link" th:href="@{/board/indexStudyList(id = ${id}, currentPage = ${idx})}" th:text="${idx}" href="javascript:pagination(0)"> 1 </a>
+                    </li>
+                    <li class="paginate_button page-item disabled">
+                        <a class="page-link" href="#none" aria-label="Next"
+                           th:href="@{/board/indexStudyList(id = ${id}, currentPage = ${pagination.currentPage}+1)}">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

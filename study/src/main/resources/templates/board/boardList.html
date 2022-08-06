@@ -1,155 +1,160 @@
 <!DOCTYPE html>
-<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8">
-<title>Title</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 </head>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<style>
-    table, td, th {
-        border: 1px solid black;
-    }
-
-    th {
-        background: #F3F5F5;
-    }
-
-    table {
-        margin-top: 5%;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        width: 80%;
-    }
-
-    a:link {
-        color: red;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    a:visited {
-        color: black;
-        text-decoration: none;
-    }
-
-    .paginate {
-        padding: 0;
-        line-height: normal;
-        text-align: center;
-        position: relative;
-        margin: 20px 0 20px 0;
-        z-index: 1;
-    }
-
-    .paginate .paging {
-        text-align: center;
-    }
-
-    .paginate{
-        margin: 0;
-        padding: 0;
-        width: 20px;
-        height: 24px;
-        line-height: 24px;
-        text-align: center;
-        color: #848484;
-        display: inline;
-        vertical-align: middle;
-        text-align: center;
-        font-size: 12px;
-    }
-
-    .paginate .paging a:hover, .paginate .paging strong {
-        color: #DAA520;
-        font-weight: 600;
-        font-weight: normal;
-    }
-
-    .paginate .paging img {
-        vertical-align: middle;
-    }
-
-    .bottom select {
-        background: transparent;
-        color: #aaa;
-        cursor: pointer;
-    }
-
-    .paginate {
-        padding: 0;
-        line-height: normal;
-        text-align: center;
-        position: relative;
-        margin: 20px 0 20px 0;
-    }
-
-    .paginate .paging {
-        text-align: center;
-    }
-
-    .paginate .paging a, .paginate .paging strong {
-        margin: 0;
-        padding: 0;
-        width: 20px;
-        height: 28px;
-        line-height: 28px;
-        text-align: center;
-        color: #999;
-        display: inline-block;
-        vertical-align: middle;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .paginate .paging a:hover, .paginate .paging strong {
-        color: #C40639;
-        font-weight: 600;
-        font-weight: normal;
-    }
-
-    .paginate .paging img {
-        vertical-align: middle;
-    }
-
-</style>
-
-<body>
-
-<div class ="container">
-    <table class="table table-hover">
-        <thead>
-        <th>id</th>
-        <th>title</th>
-        <th>content</th>
-        <th>count</th>
-        <th>comment</th>
-        <th>date</th>
-        </thead>
-        <tr th:each="list :${list}">
-            <td>[[${list.board_Id}]]</td>
-            <td><a th:href="@{/board/read(board_Id = ${list.board_Id})}">[[${list.board_Title}]]</a></td>
-            <td>[[${list.board_Content}]]</td>
-            <td>[[${list.board_Count}]]</td>
-            <td>[[${list.board_Comment}]]</td>
-            <td>[[${list.board_Date}]]</td>
-        </tr>
-    </table>
-    <br>
-</div>
-    <div style="text-align: right;">
-        <button onclick="location.href='/board/write'">글작성</button>
-    </div>
-<div class="paginate">
-    <div class="paging" style="white-space:nowrap;">
-            <a th:href="@{/board/list(currentPage = ${pagination.currentPage}-1)}">&lt; </a>
-        <div class="paginate" th:each="idx : ${#numbers.sequence(pagination.firstPage,pagination.lastPage)}">
-            <a  th:href="@{'/board/list?currentPage='+${idx}}"
-                th:text="${idx}" style="font-weight:700;"></a>
+<body class="d-flex flex-column h-100">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #283673 !important;">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="../img/logocopy.png" width="170" height="100" class="d-inline-block align-top" alt>
+        </a>
+        <div class="nav-icon">
+            <a style="color: #ffffff; font-weight: bold;" th:if="${session.nickName != null}">안녕하세요, [[${session.nickName}]]님!
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-emoji-smile-fill" viewBox="0 0 16 16" style="color: #ffd400;">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zM4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>
+                </svg>
+            </a>
         </div>
-          <a th:href="@{/board/list(currentPage = ${pagination.currentPage}+1)}">&gt; </a>
+        <div class="my-2 my-lg-0 dropdown1">
+            <div class="navbar-nav">
+                <div class="dropdown" id="nav-link-btn">
+                    <button class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="color: white;">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                        <th:block th:if="${session.nickName == null}">
+                            <a class="dropdown-item" th:href="@{/login}">로그인</a>
+                            <a class="dropdown-item" th:href="@{/join}">회원가입</a>
+                        </th:block>
+                        <th:block th:if="${session.nickName != null}">
+                            <a class="dropdown-item" tabindex="-1" href="">[[${session.nickName}]]님 안녕하세요!</a>
+                            <a class="dropdown-item" tabindex="-1" th:href="@{/logout}">로그아웃</a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</nav>
+</div>
+<div layout:fragment="content">
+    <main class="flex-shrink-0">
+        <section class="section">
+            <div class="container col-lg-10">
+                <div class="row row5">
+                    <form name="formSearch" action="/board/searchList" method="get" class="form-horizontal" role="form">
+                        <input type="hidden" name="currentPage" value="1" />
+                        <input type="hidden" name="pageSize" value="4" />
+                        <h5 class="mt-5">원하는 스터디 그룹을 찾아보세요 🔎</h5>
+                        <div class="card mb-2">
+                            <div class="card-body p-2 mt-1">
+                                <div class="row mb-2">
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-2 text-center">
+                                        <label class="col-form-label">
+                                            <h6 class="mb-0">제목</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" placeholder="찾고있는 스터디를 검색해보세요."
+                                               name="board_Title" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-end">
+                                <button type="reset" id="resetSearch" class="btn btn-secondary btn-sm">초기화</button>
+                                <button type="submit" class="btn btn-sm btn-primary btn-search">검색하기</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-5">
+                        <h2 class="fw-bolder fs-4 mb-4">스터디그룹을 찾아보세요.</h2>
+                    </div>
+                    <div class="col-7 text-end">
+                        <th:block th:if="${session.nickName != null}">
+                            <a class="text-decoration-none btn btn-primary" th:href="@{/board/write}">
+                                <i class="bi bi-plus-lg"></i>
+                                스터디그룹
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="container2 mt-3">
+                <div class="row gx-4 gx-lg-5">
+                    <th:block th:each="list : ${list}">
+                        <div class="col-md-4 mb-5">
+                            <div class="card h-100 shadow border-0">
+                                <div class="row">
+                                    <div class="col-6 text-end mt-2">
+                                        <div class="badge bg-gradient rounded-pill mb-2 bg-primary">모집 중</div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h2 class="card-title" style="cursor: pointer;">
+                                        <a th:href="@{/board/read(board_Id = ${list.board_Id})}">[[${list.board_Title}]]
+                                            <span th:if="${list.board_Comment}">([[${list.board_Comment}]])</span>
+                                        </a>
+                                    </h2>
+                                    <p class="card-text">[[${list.board_SubTitle}]]</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="d-inline">
+                                                <span class="badge badge-info mr-1" style="background-color: blueviolet;">
+                                                    <i class="bi bi-geo-alt"></i>[[${list.board_Writer}]]
+                                                </span>
+                                                <i class="bi-heart" id="btn_like" style="font-size: 1rem; color: red; cursor: pointer; float: right;"></i>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-end justify-content-between m-lg-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="small">
+                                            <div class="fw-bold">조회수 : [[${list.board_Count}]]</div>
+                                            <div class="text-muted"><div th:text="${#dates.format(list.board_RegDate, 'yyyy.MM.dd HH:mm')}"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="display-flex-row mt-3" style="display: flex">
+                <div class="m-auto">
+                    <div class="dataTables_paginate paging_simple_numbers" style="display: flex;text-align: center;">
+                        <a class="page-link" aria-label="Previous"
+                           th:if="${pagination.hasPreviousPage}" th:href="@{/board/list(currentPage = ${pagination.currentPage}-1)}"><</a>
+                        </a>
+                        <div class="paginate_button page-item active" th:each="idx : ${#numbers.sequence(pagination.firstPage,pagination.lastPage)}">
+                            <a class="page-link" th:href="@{'/board/list?currentPage='+${idx}}"
+                               th:text="${idx}" style="font-weight:700;"></a>
+                        </div>
+                        <a class="page-link" aria-label="Next"
+                           th:if="${pagination.hasNextPage}" th:href="@{/board/list(currentPage = ${pagination.currentPage}+1)}">></a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
 </body>
+<th:block layout:fragment="script">
+</th:block>
 </html>

@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>게시글 작성</title>
+    <title>게시글 수정</title>
 
     <link
             href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
@@ -30,7 +30,7 @@
 </head>
 <body>
 <div class="header_login_ID_wrap">
-    <p class="header_login_img"><a th:href="@{/}"><img th:src="@{../img/logocopy.png}"/></a></p>
+    <p class="header_login_img"><a th:href="@{/}"><img th:src="@{/img/logocopy.png}"/></a></p>
     <div>
         <th:block th:if="${session.nickName != null}">
             <a style="font-weight: bold;">안녕하세요, [[${session.nickName}]]님!</a>
@@ -42,11 +42,14 @@
 </div>
 <div style="width: 60%; margin: auto;">
     <div style="margin-top: 100px;">
-        <form enctype="multipart/form-data" action="/board/write" id="form" th:object="${boardDto}" method="post">
-            <input type="text" name="board_Title" id="board_Title" style="width: 40%;" th:field="*{board_Title}" placeholder=" 제목을 입력해 주세요."/><br>
+        <form enctype="multipart/form-data" action="/board/modify" th:action="@{/board/modify}" id="form" th:object="${boardDto}" method="post">
+            <input type="hidden" name="board_Id" th:value="${boardDto.board_Id}">
+            <input type="text" name="board_Title" id="board_Title" style="width: 40%;" th:value="${boardDto.board_Title}"/><br>
             <br><br>
-            <textarea name="board_Content" id="board_Content" class="form-control" placeholder="Type the content here!" th:field="*{board_Content}"></textarea>
-            <input id="subBtn" type="submit" value="글 작성" style="float: right;" onclick="goWrite(this.form)"/>
+            <textarea name="board_Content" id="board_Content" class="form-control" th:value="${board_Content}">
+            [[${boardDto.board_Content}]]
+            </textarea>
+            <input id="subBtn" type="submit" value="글 수정" style="float: right;" onclick="goWrite(this.form)"/>
             <script>
                 let formCheck = function() {
                     let form = document.getElementById("form");
@@ -61,11 +64,10 @@
                         return ;
                     }
                 }
-
                 $(document).ready(function() {
                     $("#subBtn").click(function(){
                         formCheck();
-                    });
+                    })
 
                     $('#board_Content').summernote({
                         height : 300,
@@ -100,7 +102,6 @@
                         }
                     });
                 }
-
             </script>
         </form>
     </div>
